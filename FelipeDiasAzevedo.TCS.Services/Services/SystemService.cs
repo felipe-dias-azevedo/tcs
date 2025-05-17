@@ -1,8 +1,6 @@
 ﻿using FelipeDiasAzevedo.TCS.Business.ViewModels;
 using FelipeDiasAzevedo.TCS.Infra.Options;
 using Microsoft.Extensions.Options;
-using System.Runtime.InteropServices;
-using System.ServiceProcess;
 
 namespace FelipeDiasAzevedo.TCS.Business.Services;
 
@@ -31,5 +29,13 @@ public class SystemService(
     public void Shutdown()
     {
         operationalSystem.Shutdown();
+    }
+
+    public ArchiveViewModel ListArchiveDirectories()
+    {
+        return new()
+        {
+            Directories = servicesOptions.ArchiveDirectories
+        };
     }
 }

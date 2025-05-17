@@ -6,4 +6,7 @@ public class ServicesOptions
 {
     [Required(AllowEmptyStrings = false)]
     public List<string> Services { get; set; } = [];
+
+    [Required(AllowEmptyStrings = false)]
+    public List<string> ArchiveDirectories { get; set; } = [];
 }

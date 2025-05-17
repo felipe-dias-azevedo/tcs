@@ -1,0 +1,21 @@
+﻿@model ArchiveViewModel;
+@{
+    ViewData["Title"] = "Archive";
+}
+
+<div class="container">
+    <h3 class="mb-3">Archive</h3>
+
+    <ul class="list-group">
+
+        @foreach (var dir in Model.Directories)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                <span class="fw-bold">@dir</span>
+
+                <!-- TODO: ADD download button -->
+            </li>
+        }
+    </ul>
+</div>
