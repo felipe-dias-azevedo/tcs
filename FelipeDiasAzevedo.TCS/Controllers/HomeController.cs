@@ -1,26 +1,28 @@
 using System.Diagnostics;
-using FelipeDiasAzevedo.TCS.Models;
+using FelipeDiasAzevedo.TCS.Business.Services;
+using FelipeDiasAzevedo.TCS.Business.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FelipeDiasAzevedo.TCS.Controllers;
 
-public class HomeController : Controller
+public class HomeController(ISystemService systemService) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
     public IActionResult Index()
     {
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult Shutdown()
     {
         return View();
+    }
+
+    [HttpPost]
+    public IActionResult ShutdownSystem()
+    {
+        systemService.Shutdown();
+
+        return RedirectToAction("Index");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

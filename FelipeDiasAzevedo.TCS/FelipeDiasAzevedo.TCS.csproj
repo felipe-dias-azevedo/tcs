@@ -6,4 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FelipeDiasAzevedo.TCS.Services\FelipeDiasAzevedo.TCS.Business.csproj" />
+  </ItemGroup>
+
+    <Target Name="LibmanRestore" BeforeTargets="Build">
+        <Exec Command="libman restore" />
+    </Target>
+
 </Project>
