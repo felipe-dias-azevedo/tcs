@@ -17,6 +17,14 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 {
     builder.Services.AddScoped<IOperationalSystemService, WindowsService>();
 }
+else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+{
+    builder.Services.AddScoped<IOperationalSystemService, MacService>();
+}
+else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+{
+    builder.Services.AddScoped<IOperationalSystemService, LinuxService>();
+}
 
 builder.Services.AddControllersWithViews();
 

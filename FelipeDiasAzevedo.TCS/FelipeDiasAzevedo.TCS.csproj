@@ -11,7 +11,7 @@
   </ItemGroup>
 
     <Target Name="LibmanRestore" BeforeTargets="Build">
-        <Exec Command="libman restore" />
+        <Exec Command="dotnet libman restore" />
     </Target>
 
 </Project>
