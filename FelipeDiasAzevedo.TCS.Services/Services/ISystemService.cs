@@ -6,6 +6,4 @@ public interface ISystemService
 {
     StatusViewModel CheckGeneralStatus();
     void Shutdown();
-
-    ArchiveViewModel ListArchiveDirectories();
 }

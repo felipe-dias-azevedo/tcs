@@ -4,17 +4,24 @@
 }
 
 <div class="container">
-    <h3 class="mb-3">Archive</h3>
+    <h3 class="display-4 mb-3">Archive</h3>
 
     <ul class="list-group">
 
-        @foreach (var dir in Model.Directories)
+        @foreach (var archive in Model.Paths)
         {
             <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                <span class="fw-bold">@dir</span>
+                <span class="fw-bold">@archive.Path</span>
 
-                <!-- TODO: ADD download button -->
+                <a class="btn btn-outline-info d-inline-flex align-items-center px-sm-4 shadow-sm"
+                   title="Download"
+                   asp-controller="Archive"
+                   asp-action="Download"
+                   asp-route-path="@archive.Path"
+                   target="_blank">
+                    <i class="bi bi-download fs-5"></i>
+                </a>
             </li>
         }
     </ul>

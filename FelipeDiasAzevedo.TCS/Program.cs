@@ -6,12 +6,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
-    .AddOptions<ServicesOptions>()
-    .Bind(builder.Configuration.GetSection(nameof(ServicesOptions)))
+    .AddOptions<SystemOptions>()
+    .Bind(builder.Configuration.GetSection(nameof(SystemOptions)))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+builder.Services
+    .AddOptions<ArchivesOptions>()
+    .Bind(builder.Configuration.GetSection(nameof(ArchivesOptions)))
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
 builder.Services.AddScoped<ISystemService, SystemService>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 {

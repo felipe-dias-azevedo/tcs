@@ -3,16 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FelipeDiasAzevedo.TCS.Controllers;
 
-public class ArchiveController(ISystemService systemService) : Controller
+public class ArchiveController(IFileService fileService) : Controller
 {
     public IActionResult Index()
     {
-        return View(systemService.ListArchiveDirectories());
+        return View(fileService.ListArchiveDirectories());
     }
 
-    [HttpPost]
-    public IActionResult Download()
+    public IActionResult Download([FromQuery] string path)
     {
-        throw new NotImplementedException();
+        var file = fileService.Archive(path);
+
+        return File(file.Stream, file.ContentType, file.FileName);
     }
 }

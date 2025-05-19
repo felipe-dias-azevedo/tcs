@@ -9,9 +9,6 @@ public class WindowsService : IOperationalSystemService
 {
     public void Shutdown()
     {
-        return;
-
-        // Execute the shutdown command using Process.Start
         var processStartInfo = new ProcessStartInfo
         {
             FileName = "shutdown",

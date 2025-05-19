@@ -2,11 +2,11 @@
 
 namespace FelipeDiasAzevedo.TCS.Infra.Options;
 
-public class ServicesOptions
+public class SystemOptions
 {
     [Required(AllowEmptyStrings = false)]
     public required List<string> Services { get; set; }
 
     [Required(AllowEmptyStrings = false)]
-    public required List<string> ArchiveDirectories { get; set; }
+    public required bool ShutdownEnabled { get; set; }
 }

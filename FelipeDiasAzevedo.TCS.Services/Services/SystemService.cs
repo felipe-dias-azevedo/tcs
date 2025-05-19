@@ -1,19 +1,18 @@
-﻿using System.IO.Compression;
-using FelipeDiasAzevedo.TCS.Business.ViewModels;
+﻿using FelipeDiasAzevedo.TCS.Business.ViewModels;
 using FelipeDiasAzevedo.TCS.Infra.Options;
 using Microsoft.Extensions.Options;
 
 namespace FelipeDiasAzevedo.TCS.Business.Services;
 
 public class SystemService(
-    IOptions<ServicesOptions> servicesOptions,
+    IOptions<SystemOptions> servicesOptions,
     IOperationalSystemService operationalSystem) : ISystemService
 {
-    private readonly ServicesOptions servicesOptions = servicesOptions.Value;
+    private readonly SystemOptions _systemOptions = servicesOptions.Value;
 
     public StatusViewModel CheckGeneralStatus()
     {
-        var servicesStatus = servicesOptions.Services
+        var servicesStatus = _systemOptions.Services
             .Select(svc => new ServiceStatusViewModel
             {
                 Name = svc,
@@ -29,47 +28,9 @@ public class SystemService(
 
     public void Shutdown()
     {
-        operationalSystem.Shutdown();
-    }
-
-    public ArchiveViewModel ListArchiveDirectories()
-    {
-        return new()
+        if (_systemOptions.ShutdownEnabled)
         {
-            Directories = servicesOptions.ArchiveDirectories
-        };
-    }
-
-    public FileArchiveViewModel Archive(string path)
-    {
-        // TODO: check if path contains in options
-
-        if (File.Exists(path))
-        {
-            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var contentType = "application/octet-stream";
-            var fileName = Path.GetFileName(path);
-
-            return new()
-            {
-                Stream = stream,
-                ContentType = contentType,
-                FileName = fileName
-            };
+            operationalSystem.Shutdown();
         }
-        else if (Directory.Exists(path))
-        {
-            var zipStream = new MemoryStream();
-            ZipFile.CreateFromDirectory(path, zipStream);
-
-            return new()
-            {
-                Stream = zipStream,
-                ContentType = "application/zip",
-                FileName = $"{Path.GetFileName(path)}.zip"
-            };
-        }
-
-        throw new InvalidOperationException("Invalid type for path.");
     }
 }

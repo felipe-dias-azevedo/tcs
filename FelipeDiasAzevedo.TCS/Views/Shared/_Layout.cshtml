@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TCS - @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FelipeDiasAzevedo.TCS.styles.css" asp-append-version="true" />
 </head>
@@ -28,7 +29,9 @@
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link btn btn-danger text" asp-area="" asp-controller="Home" asp-action="Shutdown">⏻</a>
+                            <a class="nav-link btn btn-danger px-md-3" asp-area="" asp-controller="Home" asp-action="Shutdown">
+                                <i class="bi bi-power fs-5"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>
