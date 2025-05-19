@@ -3,7 +3,7 @@ using System.ServiceProcess;
 
 namespace FelipeDiasAzevedo.TCS.Business.Services;
 
-#pragma warning disable CA1416 // Validar a compatibilidade da plataforma
+#pragma warning disable CA1416
 
 public class WindowsService : IOperationalSystemService
 {
@@ -32,4 +32,4 @@ public class WindowsService : IOperationalSystemService
     }
 }
 
-#pragma warning restore CA1416 // Validar a compatibilidade da plataforma
+#pragma warning restore CA1416
