@@ -1,4 +1,5 @@
-﻿namespace FelipeDiasAzevedo.TCS.Business.ViewModels;
+﻿
+namespace FelipeDiasAzevedo.TCS.Business.ViewModels;
 
 public class ArchiveViewModel
 {
@@ -7,6 +8,7 @@ public class ArchiveViewModel
 
 public class ArchiveDetailsViewModel
 {
+    public required string FileName { get; init; }
     public required string Path { get; init; }
     public required bool Exists { get; init; }
 }

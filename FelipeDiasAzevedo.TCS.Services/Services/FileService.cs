@@ -14,6 +14,7 @@ public class FileService(IOptions<ArchivesOptions> archivesOptions) : IFileServi
         var paths = _archivesOptions.ArchivePaths
             .Select(x => new ArchiveDetailsViewModel
             {
+                FileName = GetFileName(x),
                 Path = x,
                 Exists = Exists(x)
             })
@@ -48,7 +49,7 @@ public class FileService(IOptions<ArchivesOptions> archivesOptions) : IFileServi
         else if (Directory.Exists(path))
         {
             var zipStream = new MemoryStream();
-            ZipFile.CreateFromDirectory(path, zipStream);
+            ZipFile.CreateFromDirectory(path, zipStream, CompressionLevel.Fastest, includeBaseDirectory: true);
 
             zipStream.Position = 0;
 
@@ -63,8 +64,15 @@ public class FileService(IOptions<ArchivesOptions> archivesOptions) : IFileServi
         throw new InvalidOperationException("Invalid type for path.");
     }
 
-    private bool Exists(string path)
+    private static bool Exists(string path)
     {
         return File.Exists(path) || Directory.Exists(path);
+    }
+
+    private static string GetFileName(string path)
+    {
+        var fileInfo = new FileInfo(path);
+
+        return fileInfo.Name;
     }
 }

@@ -3,28 +3,25 @@
     ViewData["Title"] = "Status";
 }
 
-<div class="container">
+<h3 class="display-4 mb-4">Services</h3>
 
-    <h3 class="display-4 mb-3">Services</h3>
+<ul class="list-group">
 
-    <ul class="list-group">
+    @foreach (var service in Model.Services)
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
 
-        @foreach (var service in Model.Services)
-        {
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p class="fw-bold text-break mb-0">@service.Name</p>
 
-                <span class="fw-bold">@service.Name</span>
+            @if (service.Running)
+            {
+                <i title="OK" class="bi bi-check-circle-fill fs-3 text-success"></i>
+            }
 
-                @if (service.Running)
-                {
-                    <i title="OK" class="bi bi-check-circle-fill fs-3 text-success"></i>
-                }
-
-                @if (!service.Running)
-                {
-                    <i title="NOT OK" class="bi bi-x-circle-fill fs-3 text-danger"></i>
-                }
-            </li>
-        }
-    </ul>
-</div>
+            @if (!service.Running)
+            {
+                <i title="NOT OK" class="bi bi-x-circle-fill fs-3 text-danger"></i>
+            }
+        </li>
+    }
+</ul>
