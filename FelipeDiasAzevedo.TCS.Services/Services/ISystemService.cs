@@ -4,6 +4,8 @@ namespace FelipeDiasAzevedo.TCS.Business.Services;
 
 public interface ISystemService
 {
-    StatusViewModel CheckGeneralStatus();
+    ServiceViewModel CheckGeneralStatus();
+    void StartService();
+    void StopService();
     void Shutdown();
 }

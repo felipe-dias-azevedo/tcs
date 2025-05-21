@@ -9,7 +9,7 @@
 
     @foreach (var archive in Model.Paths)
     {
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li class="list-group-item @(!archive.Exists ? "disabled" : "") d-flex justify-content-between align-items-center">
 
             <div class="d-flex flex-column w-75 w-md-100 py-1 gap-1">
 
@@ -17,8 +17,7 @@
                 {
                     <p class="fw-bold text-break mb-0">@archive.FileName</p>
                 }
-
-                @if (!archive.Exists)
+                else
                 {
                     <p class="text-break mb-0">
                         <s>@archive.FileName</s>
@@ -28,10 +27,13 @@
                 <small class="text-muted text-truncate">@archive.Path</small>
             </div>
 
-            <a class="btn btn-outline-info d-inline-flex align-items-center px-3 px-md-4 shadow-sm" title="Download"
-                asp-controller="Archive" asp-action="Download" asp-route-path="@archive.Path" target="_blank">
-                <i class="bi bi-download fs-5"></i>
-            </a>
+            @if (archive.Exists)
+            {
+                <a class="btn btn-outline-info d-inline-flex align-items-center px-3 px-md-4 shadow-sm" title="Download"
+                    asp-controller="Archive" asp-action="Download" asp-route-path="@archive.Path" target="_blank">
+                    <i class="bi bi-download fs-5"></i>
+                </a>
+            }
         </li>
     }
 </ul>

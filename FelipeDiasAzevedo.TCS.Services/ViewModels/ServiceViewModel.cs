@@ -1,6 +1,6 @@
 ﻿namespace FelipeDiasAzevedo.TCS.Business.ViewModels;
 
-public record StatusViewModel
+public record ServiceViewModel
 {
     public required List<ServiceStatusViewModel> Services { get; init; }
 }

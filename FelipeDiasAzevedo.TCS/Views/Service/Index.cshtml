@@ -1,0 +1,50 @@
+﻿@model ServiceViewModel;
+@{
+    ViewData["Title"] = "Service";
+}
+
+<h3 class="display-4 mb-4">Services</h3>
+
+<ul class="list-group">
+
+    @foreach (var service in Model.Services)
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+
+            <div class="d-flex align-items-center gap-2">
+                @if (service.Running)
+                {
+                    <i title="Running" class="bi bi-check-circle-fill fs-3 text-success"></i>
+                }
+                else
+                {
+                    <i title="Stopped" class="bi bi-x-circle-fill fs-3 text-danger"></i>
+                }
+
+                <div class="vr mx-2 d-block"></div>
+
+                <p class="fw-bold text-break mb-0">@service.Name</p>
+            </div>
+
+
+            @if (service.Running)
+            {
+                // TODO: create view only to confirm, replace for <a> tag
+                <form asp-action="Stop" method="post">
+                    <button title="Stop" type="submit" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-pause-fill fs-4"></i>
+                    </button>
+                </form>
+            }
+            else
+            {
+                // TODO: create view only to confirm, replace for <a> tag
+                <form asp-action="Start" method="post">
+                    <button title="Start" type="submit" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-play-fill fs-4"></i>
+                    </button>
+                </form>
+            }
+        </li>
+    }
+</ul>

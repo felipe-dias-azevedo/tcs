@@ -10,7 +10,7 @@ public class SystemService(
 {
     private readonly SystemOptions _systemOptions = servicesOptions.Value;
 
-    public StatusViewModel CheckGeneralStatus()
+    public ServiceViewModel CheckGeneralStatus()
     {
         var servicesStatus = _systemOptions.Services
             .Select(svc => new ServiceStatusViewModel
@@ -32,5 +32,15 @@ public class SystemService(
         {
             operationalSystem.Shutdown();
         }
+    }
+
+    public void StartService()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void StopService()
+    {
+        throw new NotImplementedException();
     }
 }
