@@ -1,0 +1,14 @@
+@model ServiceStatusViewModel;
+@{
+    ViewData["Title"] = "Stop";
+}
+
+<h3 class="display-4 mb-4">Stop</h3>
+
+<p class="fs-5">You sure want to <span class="fw-bold text-danger">Stop</span> service <span
+        class="fw-bold">@Model.Name</span> ?
+</p>
+
+<form asp-action="StopService" method="post">
+    <button type="submit" class="btn btn-primary">Confirm</button>
+</form>

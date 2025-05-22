@@ -31,4 +31,14 @@ public class MacService : IOperationalSystemService
     {
         throw new NotImplementedException();
     }
+
+    public void StartService(string serviceName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void StopService(string serviceName)
+    {
+        throw new NotImplementedException();
+    }
 }

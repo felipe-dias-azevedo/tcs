@@ -29,21 +29,17 @@
 
             @if (service.Running)
             {
-                // TODO: create view only to confirm, replace for <a> tag
-                <form asp-action="Stop" method="post">
-                    <button title="Stop" type="submit" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-pause-fill fs-4"></i>
-                    </button>
-                </form>
+                <a title="Stop" class="btn btn-link btn-sm px-2 px-md-3" asp-area="" asp-controller="Service" asp-action="Stop"
+                    asp-route-service="@service.Name">
+                    <i class="bi bi-pause-fill fs-4"></i>
+                </a>
             }
             else
             {
-                // TODO: create view only to confirm, replace for <a> tag
-                <form asp-action="Start" method="post">
-                    <button title="Start" type="submit" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-play-fill fs-4"></i>
-                    </button>
-                </form>
+                <a title="Start" class="btn btn-link btn-sm px-2 px-md-3" asp-area="" asp-controller="Service"
+                    asp-action="Start" asp-route-service="@service.Name">
+                    <i class="bi bi-play-fill fs-4"></i>
+                </a>
             }
         </li>
     }

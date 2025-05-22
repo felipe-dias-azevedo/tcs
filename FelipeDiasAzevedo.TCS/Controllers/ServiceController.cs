@@ -10,18 +10,42 @@ public class ServiceController(ISystemService systemService) : Controller
         return View(systemService.CheckGeneralStatus());
     }
 
-    [HttpPost]
-    public IActionResult Start() // TODO: add query param for service name
+    public IActionResult Start([FromQuery] string service)
     {
-        systemService.StartService();
+        var serviceStatus = systemService.CheckService(service);
+
+        if (serviceStatus is null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        return View(serviceStatus);
+    }
+
+    [HttpPost]
+    public IActionResult StartService([FromQuery] string service)
+    {
+        systemService.StartService(service);
 
         return RedirectToAction("Index");
     }
 
-    [HttpPost]
-    public IActionResult Stop() // TODO: add query param for service name
+    public IActionResult Stop([FromQuery] string service)
     {
-        systemService.StopService();
+        var serviceStatus = systemService.CheckService(service);
+
+        if (serviceStatus is null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        return View(serviceStatus);
+    }
+
+    [HttpPost]
+    public IActionResult StopService([FromQuery] string service)
+    {
+        systemService.StopService(service);
 
         return RedirectToAction("Index");
     }

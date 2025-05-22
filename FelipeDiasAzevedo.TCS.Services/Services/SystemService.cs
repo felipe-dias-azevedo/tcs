@@ -34,13 +34,37 @@ public class SystemService(
         }
     }
 
-    public void StartService()
+    public ServiceStatusViewModel? CheckService(string serviceName)
     {
-        throw new NotImplementedException();
+        if (!_systemOptions.Services.Contains(serviceName))
+        {
+            return null;
+        }
+
+        return new()
+        {
+            Name = serviceName,
+            Running = operationalSystem.IsServiceRunning(serviceName)
+        };
     }
 
-    public void StopService()
+    public void StartService(string serviceName)
     {
-        throw new NotImplementedException();
+        if (operationalSystem.IsServiceRunning(serviceName))
+        {
+            return;
+        }
+
+        operationalSystem.StartService(serviceName);
+    }
+
+    public void StopService(string serviceName)
+    {
+        if (!operationalSystem.IsServiceRunning(serviceName))
+        {
+            return;
+        }
+
+        operationalSystem.StopService(serviceName);
     }
 }

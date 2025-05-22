@@ -25,7 +25,31 @@ public class WindowsService : IOperationalSystemService
     {
         var sc = new ServiceController(serviceName);
 
-        return sc.Status == ServiceControllerStatus.Running;
+        return sc.Status is ServiceControllerStatus.Running;
+    }
+
+    public void StartService(string serviceName)
+    {
+        var sc = new ServiceController(serviceName);
+
+        if (sc.Status is ServiceControllerStatus.Stopped)
+        {
+            sc.Start();
+        }
+        else if (sc.Status is ServiceControllerStatus.Paused)
+        {
+            sc.Continue();
+        }
+    }
+
+    public void StopService(string serviceName)
+    {
+        var sc = new ServiceController(serviceName);
+
+        if (sc.Status is ServiceControllerStatus.Running or ServiceControllerStatus.Paused)
+        {
+            sc.Stop();
+        }
     }
 }
 
