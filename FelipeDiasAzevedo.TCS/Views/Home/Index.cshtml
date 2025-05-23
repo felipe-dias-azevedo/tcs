@@ -2,6 +2,39 @@
     ViewData["Title"] = "Home";
 }
 
+@{
+    var cards = new HomeCardViewModel[3] {
+new HomeCardViewModel
+{
+Header = "Services",
+Title = "Manage and monitor system services",
+Text = "View current service status (running or stopped), and start or stop individual services as needed.",
+ButtonText = "Open Service Page",
+Controller = "Service",
+Action = "Index"
+},
+new HomeCardViewModel
+{
+Header = "Archive",
+Title = "Archive files and folders",
+Text = "Browse and download archived files and folders from available system paths.",
+ButtonText = "Open Archive Page",
+Controller = "Archive",
+Action = "Index"
+},
+new HomeCardViewModel
+{
+Header = "Shutdown",
+Title = "Shutdown system",
+Text = "Immediately power off the system. All operations will stop.",
+ButtonText = "Open Shutdown Page",
+Controller = "Home",
+Action = "Shutdown",
+Danger = true
+}
+};
+}
+
 
 <h1 class="display-4 mb-4">
     Welcome
@@ -13,68 +46,10 @@
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xg-4 g-4">
 
-    <div class="col">
-        <div class="card tcs-home-card shadow-sm">
-            <div class="card-header">
-                Services
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">
-                    Manage and monitor system services
-                </h5>
-                <p class="card-text fs-6">
-                    View current service status (running or stopped), and start or stop individual services as needed.
-                </p>
-            </div>
-            <div class="card-footer">
-                <a class="btn btn-primary w-100" asp-area="" asp-controller="Service" asp-action="Index">
-                    Open Service Page
-                </a>
-            </div>
+    @foreach (var card in cards)
+    {
+        <div class="col">
+            <partial name="_HomeCard" model="card" />
         </div>
-    </div>
-
-
-
-    <div class="col">
-        <div class="card tcs-home-card shadow-sm">
-            <div class="card-header">
-                Archive
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">
-                    Archive files and folders
-                </h5>
-                <p class="card-text fs-6">
-                    Browse and download archived files and folders from available system paths.
-                </p>
-            </div>
-            <div class="card-footer">
-                <a class="btn btn-primary w-100" asp-area="" asp-controller="Archive" asp-action="Index">
-                    Open Archive Page
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col">
-        <div class="card tcs-home-card shadow-sm">
-            <div class="card-header">
-                Shutdown
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">
-                    Shutdown system
-                </h5>
-                <p class="card-text fs-6">
-                    Immediately power off the system. All operations will stop.
-                </p>
-            </div>
-            <div class="card-footer">
-                <a class="btn btn-primary w-100" asp-area="" asp-controller="Home" asp-action="Shutdown">
-                    Open Shutdown Page
-                </a>
-            </div>
-        </div>
-    </div>
+    }
 </div>

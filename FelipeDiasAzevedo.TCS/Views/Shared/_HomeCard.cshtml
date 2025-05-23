@@ -1,0 +1,17 @@
+@model FelipeDiasAzevedo.TCS.Business.ViewModels.HomeCardViewModel
+
+<div class="card shadow-sm h-100 d-flex flex-column">
+    <div class="card-header @(Model.Danger ? "bg-danger" : "bg-primary") text-light">
+        @Model.Header
+    </div>
+    <div class="card-body d-flex flex-column">
+        <div class="mb-3">
+            <h5 class="card-title">@Model.Title</h5>
+            <p class="card-text fs-6 lh-sm">@Model.Text</p>
+        </div>
+        <a class="btn @(Model.Danger ? "btn-danger" : "btn-primary") w-100 mt-auto" asp-controller="@Model.Controller"
+            asp-action="@Model.Action">
+            @Model.ButtonText
+        </a>
+    </div>
+</div>
