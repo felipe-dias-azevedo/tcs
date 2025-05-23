@@ -5,7 +5,7 @@
 
 <h3 class="display-4 mb-4">Archive</h3>
 
-<ul class="list-group">
+<ul class="list-group shadow-sm">
 
     @foreach (var archive in Model.Paths)
     {
@@ -29,7 +29,7 @@
 
             @if (archive.Exists)
             {
-                <a class="btn btn-outline-info d-inline-flex align-items-center px-3 px-md-4 shadow-sm" title="Download"
+                <a class="btn btn-outline-primary d-inline-flex align-items-center px-3 px-md-4" title="Download"
                     asp-controller="Archive" asp-action="Download" asp-route-path="@archive.Path" target="_blank">
                     <i class="bi bi-download fs-4"></i>
                 </a>

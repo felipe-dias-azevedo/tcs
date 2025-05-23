@@ -7,6 +7,74 @@
     Welcome
 </h1>
 
-<h4>
+<h4 class="mb-4">
     TC Server
 </h4>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xg-4 g-4">
+
+    <div class="col">
+        <div class="card tcs-home-card shadow-sm">
+            <div class="card-header">
+                Services
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    Manage and monitor system services
+                </h5>
+                <p class="card-text fs-6">
+                    View current service status (running or stopped), and start or stop individual services as needed.
+                </p>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary w-100" asp-area="" asp-controller="Service" asp-action="Index">
+                    Open Service Page
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col">
+        <div class="card tcs-home-card shadow-sm">
+            <div class="card-header">
+                Archive
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    Archive files and folders
+                </h5>
+                <p class="card-text fs-6">
+                    Browse and download archived files and folders from available system paths.
+                </p>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary w-100" asp-area="" asp-controller="Archive" asp-action="Index">
+                    Open Archive Page
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card tcs-home-card shadow-sm">
+            <div class="card-header">
+                Shutdown
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    Shutdown system
+                </h5>
+                <p class="card-text fs-6">
+                    Immediately power off the system. All operations will stop.
+                </p>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary w-100" asp-area="" asp-controller="Home" asp-action="Shutdown">
+                    Open Shutdown Page
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
