@@ -1,14 +1,26 @@
 @model ServiceStatusViewModel;
 @{
-    ViewData["Title"] = $"Stop \"{Model.Name}\""; ;
+    ViewData["Title"] = $"Stop \"{Model.Name}\"";
+
+    var confirmationAlert = new ConfirmationAlertViewModel
+    {
+        Header = "Stop service",
+        Body = $"Are you sure you want to <span class=\"fw-bold text-dark\">Stop</span> the service <span class=\"fw-bold text-primary\">{Model.Name}</span>?",
+        Button = "Confirm Stop",
+        Action = "StopService",
+        Icon = "bi-stop-circle-fill",
+        Color = "warning"
+    };
 }
 
 <h3 class="display-4 mb-4">Stop</h3>
 
-<p class="fs-5">You sure want to <span class="fw-bold text-danger">Stop</span> service <span
+<partial name="_ConfirmationAlert" model="confirmationAlert" />
+
+@* <p class="fs-5">You sure want to <span class="fw-bold text-danger">Stop</span> service <span
         class="fw-bold">@Model.Name</span> ?
 </p>
 
 <form asp-action="StopService" method="post">
     <button type="submit" class="btn btn-primary">Confirm</button>
-</form>
+</form> *@

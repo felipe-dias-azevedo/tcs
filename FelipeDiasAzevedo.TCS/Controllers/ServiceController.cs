@@ -10,9 +10,9 @@ public class ServiceController(ISystemService systemService) : Controller
         return View(systemService.CheckGeneralStatus());
     }
 
-    public IActionResult Start([FromQuery] string service)
+    public IActionResult Start([FromQuery] string name)
     {
-        var serviceStatus = systemService.CheckService(service);
+        var serviceStatus = systemService.CheckService(name);
 
         if (serviceStatus is null)
         {
@@ -23,16 +23,16 @@ public class ServiceController(ISystemService systemService) : Controller
     }
 
     [HttpPost]
-    public IActionResult StartService([FromQuery] string service)
+    public IActionResult StartService([FromQuery] string name)
     {
-        systemService.StartService(service);
+        systemService.StartService(name);
 
         return RedirectToAction("Index");
     }
 
-    public IActionResult Stop([FromQuery] string service)
+    public IActionResult Stop([FromQuery] string name)
     {
-        var serviceStatus = systemService.CheckService(service);
+        var serviceStatus = systemService.CheckService(name);
 
         if (serviceStatus is null)
         {
@@ -43,9 +43,9 @@ public class ServiceController(ISystemService systemService) : Controller
     }
 
     [HttpPost]
-    public IActionResult StopService([FromQuery] string service)
+    public IActionResult StopService([FromQuery] string name)
     {
-        systemService.StopService(service);
+        systemService.StopService(name);
 
         return RedirectToAction("Index");
     }
