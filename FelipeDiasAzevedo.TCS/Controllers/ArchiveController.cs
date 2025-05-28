@@ -5,10 +5,17 @@ namespace FelipeDiasAzevedo.TCS.Controllers;
 
 public class ArchiveController(IFileService fileService) : Controller
 {
-    public IActionResult Index()
+    public IActionResult Index([FromQuery] bool? existsOnly)
     {
-        return View(fileService.ListArchiveDirectories());
+        return View(fileService.ListArchiveDirectories(existsOnly));
     }
+
+    [HttpPost]
+    public IActionResult IndexFilter(bool? existsOnly)
+    {
+        return RedirectToAction("Index", new { existsOnly });
+    }
+
 
     public IActionResult Download([FromQuery] string path)
     {

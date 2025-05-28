@@ -9,7 +9,7 @@ public class FileService(IOptions<ArchivesOptions> archivesOptions) : IFileServi
 {
     private readonly ArchivesOptions _archivesOptions = archivesOptions.Value;
 
-    public ArchiveViewModel ListArchiveDirectories()
+    public ArchiveViewModel ListArchiveDirectories(bool? existsOnly)
     {
         var paths = _archivesOptions.ArchivePaths
             .Select(x => new ArchiveDetailsViewModel
@@ -18,11 +18,13 @@ public class FileService(IOptions<ArchivesOptions> archivesOptions) : IFileServi
                 Path = x,
                 Exists = Exists(x)
             })
+            .Where(x => !existsOnly.HasValue || !existsOnly.Value || x.Exists)
             .ToList();
 
         return new()
         {
-            Paths = paths
+            Paths = paths,
+            ExistsOnly = existsOnly
         };
     }
 

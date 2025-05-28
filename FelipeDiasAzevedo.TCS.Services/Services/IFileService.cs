@@ -4,6 +4,6 @@ namespace FelipeDiasAzevedo.TCS.Business.Services;
 
 public interface IFileService
 {
-    ArchiveViewModel ListArchiveDirectories();
+    ArchiveViewModel ListArchiveDirectories(bool? existsOnly);
     FileArchiveViewModel Archive(string path);
 }

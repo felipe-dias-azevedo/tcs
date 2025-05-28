@@ -5,7 +5,17 @@
 
 <h3 class="display-4 mb-4">Archive</h3>
 
-<ul class="list-group shadow-sm">
+<form asp-action="IndexFilter" method="post" class="p-3 d-flex align-items-center justify-content-between">
+    <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="toggleSwitch" name="existsOnly" value="True" switch
+            @(Model.ExistsOnly == true ? "checked" : "")>
+
+        <label class="form-check-label" for="toggleSwitch">Show Only Existing Items</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Apply</button>
+</form>
+
+<ul class="list-group shadow-sm mt-3">
 
     @foreach (var archive in Model.Paths)
     {
