@@ -11,4 +11,6 @@ public record HomeCardViewModel
     public required string ButtonText { get; init; }
 
     public bool Danger { get; init; }
+
+    public Dictionary<string, string> Routes { get; init; } = [];
 }

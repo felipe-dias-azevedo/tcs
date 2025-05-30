@@ -3,19 +3,30 @@
     ViewData["Title"] = "Archive";
 }
 
-<h3 class="display-4 mb-4">Archive</h3>
+<div class="mb-4 d-flex justify-content-between align-items-center">
 
-<form asp-action="IndexFilter" method="post" class="p-3 d-flex align-items-center justify-content-between">
-    <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="toggleSwitch" name="existsOnly" value="True" switch
-            @(Model.ExistsOnly == true ? "checked" : "")>
+    <h3 class="display-4">Archive</h3>
+    <div class="dropdown">
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center"
+            data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+            <i class="bi bi-filter me-1 fs-5"></i>
+        </button>
+        <form asp-action="IndexFilter" method="post" class="p-3 dropdown-menu dropdown-menu-end"
+            style="min-width: 250px; max-width: 100%;">
 
-        <label class="form-check-label" for="toggleSwitch">Show Only Existing Items</label>
+            <div class="form-check form-switch m-0">
+                <input class="form-check-input" type="checkbox" id="toggleSwitch" name="existsOnly" value="True" switch
+                    @(Model.ExistsOnly == true ? "checked" : "")>
+
+                <label class="form-check-label" for="toggleSwitch">Show Only Existing</label>
+            </div>
+            <hr class="dropdown-divider">
+            <button type="submit" class="btn btn-primary btn-sm w-100">Apply</button>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Apply</button>
-</form>
+</div>
 
-<ul class="list-group shadow-sm mt-3">
+<ul class="list-group shadow-sm">
 
     @foreach (var archive in Model.Paths)
     {

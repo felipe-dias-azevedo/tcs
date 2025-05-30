@@ -9,8 +9,9 @@
             <h5 class="card-title">@Model.Title</h5>
             <p class="card-text fs-6 lh-sm">@Model.Text</p>
         </div>
-        <a class="btn @(Model.Danger ? "btn-danger" : "btn-primary") w-100 mt-auto" asp-controller="@Model.Controller"
-            asp-action="@Model.Action">
+
+        <a class="btn @(Model.Danger ? "btn-danger" : "btn-primary") w-100 mt-auto"
+            href="@Url.Action(Model.Action, Model.Controller, Model.Routes)">
             @Model.ButtonText
         </a>
     </div>
