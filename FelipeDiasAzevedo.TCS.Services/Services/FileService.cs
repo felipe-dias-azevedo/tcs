@@ -37,6 +37,8 @@ public class FileService(IOptions<ArchivesOptions> archivesOptions) : IFileServi
 
         var fileName = Path.GetFileName(path);
 
+        // TODO: check if can get content of file/folder if service is locking it
+
         if (File.Exists(path))
         {
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);

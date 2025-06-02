@@ -27,6 +27,8 @@ public class WindowsService : IOperationalSystemService
 
     //public ServiceStatusViewModel? GetService(string serviceName)
     //{
+    //    // TODO: read logs from EventLog
+    //
     //    var service = new ServiceController(serviceName);
 
     //    return new()
