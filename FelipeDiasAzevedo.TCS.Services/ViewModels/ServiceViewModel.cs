@@ -8,6 +8,15 @@ public record ServiceViewModel
 public record ServiceStatusViewModel
 {
     public required string Name { get; init; }
+    //public required string DisplayName { get; init; }
 
     public bool Running { get; init; }
+}
+
+public enum ServiceStatus
+{
+    Stopped,
+    Running,
+    Paused,
+    Pending
 }

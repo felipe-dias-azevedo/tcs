@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using FelipeDiasAzevedo.TCS.Business.ViewModels;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.ServiceProcess;
 
 namespace FelipeDiasAzevedo.TCS.Business.Services;
@@ -7,6 +9,8 @@ namespace FelipeDiasAzevedo.TCS.Business.Services;
 
 public class WindowsService : IOperationalSystemService
 {
+    private readonly TimeSpan _timeout = TimeSpan.FromSeconds(30);
+
     public void Shutdown()
     {
         var processStartInfo = new ProcessStartInfo
@@ -21,11 +25,44 @@ public class WindowsService : IOperationalSystemService
         Process.Start(processStartInfo);
     }
 
+    //public ServiceStatusViewModel? GetService(string serviceName)
+    //{
+    //    var service = new ServiceController(serviceName);
+
+    //    return new()
+    //    {
+    //        Name = serviceName,
+    //        DisplayName = service.DisplayName,
+    //        Status = service.Status switch
+    //        {
+    //            ServiceControllerStatus.Stopped => ServiceStatus.Stopped,
+    //            ServiceControllerStatus.Running => ServiceStatus.Running,
+    //            ServiceControllerStatus.Paused => ServiceStatus.Paused,
+    //            ServiceControllerStatus.ContinuePending or 
+    //            ServiceControllerStatus.PausePending or 
+    //            ServiceControllerStatus.StartPending or 
+    //            ServiceControllerStatus.StopPending => ServiceStatus.Pending,
+    //        }
+    //    };
+    //}
+
     public bool IsServiceRunning(string serviceName)
     {
-        var sc = new ServiceController(serviceName);
+        try
+        {
+            var sc = new ServiceController(serviceName);
 
-        return sc.Status is ServiceControllerStatus.Running;
+            return sc.Status is ServiceControllerStatus.Running;
+        }
+        catch (InvalidOperationException ex) when (ex.InnerException is Win32Exception)
+        {
+            return false;
+        }
+        catch
+        {
+            // TODO: Add logs
+            return false;
+        }
     }
 
     public void StartService(string serviceName)
@@ -35,10 +72,12 @@ public class WindowsService : IOperationalSystemService
         if (sc.Status is ServiceControllerStatus.Stopped)
         {
             sc.Start();
+            sc.WaitForStatus(ServiceControllerStatus.Running, _timeout);
         }
         else if (sc.Status is ServiceControllerStatus.Paused)
         {
             sc.Continue();
+            sc.WaitForStatus(ServiceControllerStatus.Running, _timeout);
         }
     }
 
@@ -49,6 +88,7 @@ public class WindowsService : IOperationalSystemService
         if (sc.Status is ServiceControllerStatus.Running or ServiceControllerStatus.Paused)
         {
             sc.Stop();
+            sc.WaitForStatus(ServiceControllerStatus.Stopped, _timeout);
         }
     }
 }
