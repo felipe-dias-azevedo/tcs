@@ -32,6 +32,7 @@ public class FileService(IOptions<ArchivesOptions> archivesOptions) : IFileServi
     {
         if (!_archivesOptions.ArchivePaths.Contains(path) || !Exists(path))
         {
+            // TODO: use result pattern instead of throwing exceptions
             throw new InvalidOperationException("Archive path does not exist");
         }
 
@@ -67,6 +68,31 @@ public class FileService(IOptions<ArchivesOptions> archivesOptions) : IFileServi
 
         throw new InvalidOperationException("Invalid type for path.");
     }
+
+    //public static byte[] CreateZipInMemory(Stream inputFileStream, string entryName)
+    //{
+    //    using (FileStream fileStream = new FileStream("lockedfile.txt",
+    //                                                  FileMode.Open,
+    //                                                  FileAccess.Read,
+    //                                                  FileShare.ReadWrite)) // assuming we can access it
+
+    //        inputFileStream.Position = 0;
+
+    //    using (var zipStream = new MemoryStream())
+    //    {
+    //        using (var archive = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+    //        {
+    //            var zipEntry = archive.CreateEntry(entryName);
+
+    //            using (var entryStream = zipEntry.Open())
+    //            {
+    //                inputFileStream.CopyTo(entryStream);
+    //            }
+    //        }
+
+    //        return zipStream.ToArray(); // return the ZIP as byte[]
+    //    }
+    //}
 
     private static bool Exists(string path)
     {
