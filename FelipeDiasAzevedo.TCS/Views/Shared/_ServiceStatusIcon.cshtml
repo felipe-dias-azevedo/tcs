@@ -1,0 +1,25 @@
+﻿@model FelipeDiasAzevedo.TCS.Business.ViewModels.ServiceStatus
+
+@{
+    var fontSize = ViewData["ServiceStatusIconSize"] as string ?? "fs-3";
+}
+
+@switch (Model)
+{
+    case ServiceStatus.Running:
+        <i title="Running" class="bi bi-check-circle-fill text-success @fontSize"></i>
+
+        break;
+    case ServiceStatus.Stopped:
+        <i title="Stopped" class="bi bi-x-circle-fill text-danger @fontSize"></i>
+
+        break;
+    case ServiceStatus.Paused:
+        <i title="Paused" class="bi bi-pause-circle-fill text-warning @fontSize"></i>
+
+        break;
+    case ServiceStatus.Pending:
+        <i title="Pending" class="bi bi-clock-fill text-secondary @fontSize"></i>
+
+        break;
+}

@@ -1,8 +1,10 @@
+using FelipeDiasAzevedo.TCS.Business.ViewModels;
+
 namespace FelipeDiasAzevedo.TCS.Business.Services;
 
 public class LinuxService : IOperationalSystemService
 {
-    public bool IsServiceRunning(string serviceName)
+    public ServiceStatusViewModel? GetService(string serviceName, bool includeLogs = false)
     {
         throw new NotImplementedException();
     }

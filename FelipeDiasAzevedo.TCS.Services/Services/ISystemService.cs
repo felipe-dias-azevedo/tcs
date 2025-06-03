@@ -4,9 +4,9 @@ namespace FelipeDiasAzevedo.TCS.Business.Services;
 
 public interface ISystemService
 {
-    ServiceViewModel CheckGeneralStatus();
+    ServiceViewModel GetServices();
 
-    ServiceStatusViewModel? CheckService(string serviceName);
+    ServiceStatusViewModel? GetService(string serviceName, bool includeLogs = false);
 
     void StartService(string serviceName);
 

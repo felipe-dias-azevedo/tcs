@@ -1,6 +1,6 @@
 @model FelipeDiasAzevedo.TCS.Business.ViewModels.ConfirmationAlertViewModel
 
-<div class="alert alert-@(Model.Color) d-flex align-items-center p-4 rounded shadow-sm w-100">
+<div class="alert alert-@(Model.Color) bg-gradient d-flex align-items-center p-4 rounded shadow-sm w-100">
     <div class="me-4 display-4">
         <i class="bi @(Model.Icon) text-@(Model.Color)"></i>
     </div>
@@ -15,7 +15,7 @@
         @if (Model.QueryName is not null)
         {
             <form asp-action="@Model.Action" method="post" asp-route-name="@Model.QueryName">
-                <button type="submit" class="btn btn-@(Model.Color)">
+                <button type="submit" class="btn btn-@(Model.Color) bg-gradient">
                     @Model.Button
                 </button>
             </form>
@@ -23,7 +23,7 @@
         else
         {
             <form asp-action="@Model.Action" method="post">
-                <button type="submit" class="btn btn-@(Model.Color)">
+                <button type="submit" class="btn btn-@(Model.Color) bg-gradient">
                     @Model.Button
                 </button>
             </form>

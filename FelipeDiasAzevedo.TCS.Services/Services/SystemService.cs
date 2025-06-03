@@ -10,14 +10,12 @@ public class SystemService(
 {
     private readonly SystemOptions _systemOptions = servicesOptions.Value;
 
-    public ServiceViewModel CheckGeneralStatus()
+    public ServiceViewModel GetServices()
     {
         var servicesStatus = _systemOptions.Services
-            .Select(svc => new ServiceStatusViewModel
-            {
-                Name = svc,
-                Running = operationalSystem.IsServiceRunning(svc)
-            })
+            .Select(service => operationalSystem.GetService(service))
+            .Where(service => service is not null)
+            .Select(s => s!)
             .ToList();
 
         return new()
@@ -34,23 +32,26 @@ public class SystemService(
         }
     }
 
-    public ServiceStatusViewModel? CheckService(string serviceName)
+    public ServiceStatusViewModel? GetService(string serviceName, bool includeLogs = false)
     {
         if (!_systemOptions.Services.Contains(serviceName))
         {
             return null;
         }
 
-        return new()
-        {
-            Name = serviceName,
-            Running = operationalSystem.IsServiceRunning(serviceName)
-        };
+        return operationalSystem.GetService(serviceName, includeLogs);
     }
 
     public void StartService(string serviceName)
     {
-        if (operationalSystem.IsServiceRunning(serviceName))
+        if (!_systemOptions.Services.Contains(serviceName))
+        {
+            return;
+        }
+
+        var service = operationalSystem.GetService(serviceName);
+
+        if (service?.CanStart == false)
         {
             return;
         }
@@ -60,7 +61,14 @@ public class SystemService(
 
     public void StopService(string serviceName)
     {
-        if (!operationalSystem.IsServiceRunning(serviceName))
+        if (!_systemOptions.Services.Contains(serviceName))
+        {
+            return;
+        }
+
+        var service = operationalSystem.GetService(serviceName);
+
+        if (service?.CanStop == false)
         {
             return;
         }

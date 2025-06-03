@@ -1,0 +1,94 @@
+﻿@model ServiceStatusViewModel;
+@{
+    ViewData["Title"] = $"Service \"{Model.Name}\"";
+
+    ViewData["ServiceStatusIconSize"] = "fs-2";
+
+    var color = Model.Status switch
+    {
+        ServiceStatus.Running => "success",
+        ServiceStatus.Stopped => "danger",
+        ServiceStatus.Paused => "warning",
+        ServiceStatus.Pending => "info",
+        _ => ""
+    };
+}
+
+<h3 class="display-4 mb-4">Service</h3>
+
+<div class="border border-@color rounded mb-3">
+    <div class="d-flex flex-wrap align-items-center gap-3 p-3">
+
+        <partial name="_ServiceStatusIcon" model="@Model.Status" view-data="ViewData" />
+
+        <div class="vr d-block"></div>
+
+        <div class="d-flex flex-grow-1 flex-column py-1 gap-1">
+            <h5 class="fw-semibold mb-0">@Model.DisplayName</h5>
+
+            <small class="text-muted text-truncate">@Model.Name</small>
+        </div>
+        
+        <div class="d-flex flex-wrap gap-3 text-secondary small">
+            <span class="badge rounded-pill bg-secondary bg-gradient text-bg-dark px-3 py-2">@Model.StartType</span>
+            <span class="badge rounded-pill bg-secondary bg-gradient text-bg-dark px-3 py-2">@Model.ServiceType</span>
+        </div>
+    </div>
+</div>
+
+<div class="border rounded mb-4 d-flex align-items-center justify-content-between px-3 py-2">
+
+    <p class="mb-0">Actions</p>
+
+    <div class="d-flex justify-content-end gap-3">
+
+
+        <a title="Start" class="btn py-0 px-3 d-flex align-items-center gap-1 bg-gradient @(Model.CanStart ? "btn-success" : "btn-secondary disabled")"
+           asp-area="" asp-controller="Service" asp-action="Start" asp-route-name="@Model.Name">
+            <i class="bi bi-play-fill fs-4"></i>
+            <span>Start</span>
+        </a>
+
+        <a title="Stop" class="btn py-0 px-3 d-flex align-items-center gap-1 bg-gradient @(Model.CanStop ? "btn-danger" : "btn-secondary disabled")"
+           asp-area="" asp-controller="Service" asp-action="Stop" asp-route-name="@Model.Name">
+            <i class="bi bi-stop-fill fs-4"></i>
+            <span>Stop</span>
+        </a>
+    </div>
+</div>
+
+<h5 class="display-6 mb-4">Logs</h5>
+
+<div class="d-flex flex-column gap-3">
+    @if (Model.Logs.Count == 0)
+    {
+        <div class="alert alert-info d-flex align-items-center gap-3" role="alert">
+            <i class="bi bi-info-circle-fill fs-5"></i>
+            <span class="fw-semibold">No logs found for this service.</span>
+        </div>
+    }
+
+    @foreach (var log in Model.Logs)
+    {
+        var isError = log.Type == "Error";
+
+        <div class="card shadow-sm h-100 d-flex flex-column">
+            <div class="card-header d-flex gap-2">
+                @if (isError)
+                {
+                    <i class="bi bi-exclamation-triangle text-danger-emphasis"></i>
+                }
+                <span class="fw-semibold @(isError ? "text-danger-emphasis" : "")">@log.Type</span>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <p>
+                    @log.Message
+                </p>
+
+                <p class="text-muted mb-0">
+                    @log.DateTime.ToString("G")
+                </p>
+            </div>
+        </div>
+    }
+</div>

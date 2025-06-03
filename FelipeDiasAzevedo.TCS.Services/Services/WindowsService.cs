@@ -25,45 +25,68 @@ public class WindowsService : IOperationalSystemService
         Process.Start(processStartInfo);
     }
 
-    //public ServiceStatusViewModel? GetService(string serviceName)
-    //{
-    //    // TODO: read logs from EventLog
-    //
-    //    var service = new ServiceController(serviceName);
-
-    //    return new()
-    //    {
-    //        Name = serviceName,
-    //        DisplayName = service.DisplayName,
-    //        Status = service.Status switch
-    //        {
-    //            ServiceControllerStatus.Stopped => ServiceStatus.Stopped,
-    //            ServiceControllerStatus.Running => ServiceStatus.Running,
-    //            ServiceControllerStatus.Paused => ServiceStatus.Paused,
-    //            ServiceControllerStatus.ContinuePending or 
-    //            ServiceControllerStatus.PausePending or 
-    //            ServiceControllerStatus.StartPending or 
-    //            ServiceControllerStatus.StopPending => ServiceStatus.Pending,
-    //        }
-    //    };
-    //}
-
-    public bool IsServiceRunning(string serviceName)
+    public List<ServiceLogViewModel> GetLogs(string serviceName)
     {
+        using var eventLog = new EventLog("System");
+
+        return eventLog.Entries
+            .Cast<EventLogEntry>()
+            .Reverse()
+            .Where(entry =>
+                (entry.Source == "Service Control Manager" || entry.Source == serviceName) &&
+                entry.Message.Contains(serviceName, StringComparison.OrdinalIgnoreCase))
+            .Take(10)
+            .Select(entry => new ServiceLogViewModel
+            {
+                DateTime = entry.TimeGenerated,
+                Type = entry.EntryType.ToString(),
+                Message = entry.Message
+            })
+            .ToList();
+    }
+
+    public ServiceStatusViewModel? GetService(string serviceName, bool includeLogs = false)
+    {
+        var logs = new List<ServiceLogViewModel>();
+
         try
         {
-            var sc = new ServiceController(serviceName);
+            var service = new ServiceController(serviceName);
 
-            return sc.Status is ServiceControllerStatus.Running;
+            var status = service.Status switch
+            {
+                ServiceControllerStatus.Stopped => ServiceStatus.Stopped,
+                ServiceControllerStatus.Running => ServiceStatus.Running,
+                ServiceControllerStatus.Paused => ServiceStatus.Paused,
+                ServiceControllerStatus.ContinuePending or
+                ServiceControllerStatus.PausePending or
+                ServiceControllerStatus.StartPending or
+                ServiceControllerStatus.StopPending => ServiceStatus.Pending,
+            };
+
+            if (includeLogs)
+            {
+                logs = GetLogs(serviceName);
+            }
+
+            return new()
+            {
+                Name = serviceName,
+                DisplayName = service.DisplayName,
+                ServiceType = service.ServiceType.ToString(),
+                StartType = service.StartType.ToString(),
+                Status = status,
+                Logs = logs
+            };
         }
         catch (InvalidOperationException ex) when (ex.InnerException is Win32Exception)
         {
-            return false;
+            return null;
         }
         catch
         {
             // TODO: Add logs
-            return false;
+            return null;
         }
     }
 

@@ -1,9 +1,15 @@
+using FelipeDiasAzevedo.TCS.Business.ViewModels;
 using System.Diagnostics;
 
 namespace FelipeDiasAzevedo.TCS.Business.Services;
 
 public class MacService : IOperationalSystemService
 {
+    public ServiceStatusViewModel? GetService(string serviceName, bool includeLogs = false)
+    {
+        throw new NotImplementedException();
+    }
+
     public bool IsServiceRunning(string serviceName)
     {
         var process = new Process

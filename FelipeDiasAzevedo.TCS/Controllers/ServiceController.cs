@@ -7,14 +7,26 @@ public class ServiceController(ISystemService systemService) : Controller
 {
     public IActionResult Index()
     {
-        return View(systemService.CheckGeneralStatus());
+        return View(systemService.GetServices());
+    }
+
+    public IActionResult Details([FromQuery] string name)
+    {
+        var serviceStatus = systemService.GetService(name, includeLogs: true);
+
+        if (serviceStatus is null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        return View(serviceStatus);
     }
 
     public IActionResult Start([FromQuery] string name)
     {
-        var serviceStatus = systemService.CheckService(name);
+        var serviceStatus = systemService.GetService(name);
 
-        if (serviceStatus is null)
+        if (serviceStatus is null || !serviceStatus.CanStart)
         {
             return RedirectToAction("Index");
         }
@@ -32,9 +44,9 @@ public class ServiceController(ISystemService systemService) : Controller
 
     public IActionResult Stop([FromQuery] string name)
     {
-        var serviceStatus = systemService.CheckService(name);
+        var serviceStatus = systemService.GetService(name);
 
-        if (serviceStatus is null)
+        if (serviceStatus is null || !serviceStatus.CanStop)
         {
             return RedirectToAction("Index");
         }

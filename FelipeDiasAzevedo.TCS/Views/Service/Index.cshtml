@@ -9,38 +9,25 @@
 
     @foreach (var service in Model.Services)
     {
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a asp-controller="Service" 
+           asp-action="Details"
+           asp-route-name="@service.Name" 
+           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
 
             <div class="d-flex align-items-center gap-2">
-                @if (service.Running)
-                {
-                    <i title="Running" class="bi bi-check-circle-fill fs-3 text-success"></i>
-                }
-                else
-                {
-                    <i title="Stopped" class="bi bi-x-circle-fill fs-3 text-danger"></i>
-                }
+
+                <partial name="_ServiceStatusIcon" model="service.Status" />
 
                 <div class="vr mx-2 d-block"></div>
 
-                <p class="fw-bold text-break mb-0">@service.Name</p>
+                <div class="d-flex flex-column py-1 gap-1">
+                    <p class="fw-bold text-break text-body mb-0">@service.DisplayName</p>
+
+                    <small class="text-muted text-truncate">@service.Name</small>
+                </div>
             </div>
 
-
-            @if (service.Running)
-            {
-                <a title="Stop" class="btn btn-link btn-sm px-2 px-md-3" asp-area="" asp-controller="Service" asp-action="Stop"
-                    asp-route-name="@service.Name">
-                    <i class="bi bi-stop-fill fs-4"></i>
-                </a>
-            }
-            else
-            {
-                <a title="Start" class="btn btn-link btn-sm px-2 px-md-3" asp-area="" asp-controller="Service"
-                    asp-action="Start" asp-route-name="@service.Name">
-                    <i class="bi bi-play-fill fs-4"></i>
-                </a>
-            }
-        </li>
+            <i class="bi bi-three-dots fs-4"></i>
+        </a>
     }
 </ul>

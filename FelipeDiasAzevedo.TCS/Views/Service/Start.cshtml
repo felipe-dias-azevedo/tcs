@@ -1,11 +1,11 @@
 @model ServiceStatusViewModel;
 @{
-    ViewData["Title"] = $"Start \"{Model.Name}\"";
+    ViewData["Title"] = $"Start Service \"{Model.Name}\"";
     
     var confirmationAlert = new ConfirmationAlertViewModel
     {
         Header = "Start service",
-        Body = $"Are you sure you want to <span class=\"fw-bold\">Start</span> the service <span class=\"fw-bold text-body\">{Model.Name}</span> ?",
+        Body = $"Are you sure you want to <span class=\"fw-bold\">Start</span> the service <span class=\"fw-bold text-body\">{Model.DisplayName}</span> ?",
         Button = "Confirm Start",
         Action = "StartService",
         Icon = "bi-play-circle-fill",

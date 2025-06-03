@@ -1,11 +1,13 @@
-﻿namespace FelipeDiasAzevedo.TCS.Business.Services;
+﻿using FelipeDiasAzevedo.TCS.Business.ViewModels;
+
+namespace FelipeDiasAzevedo.TCS.Business.Services;
 
 public interface IOperationalSystemService
 {
     /// <summary>
-    /// Check if OS service is currently running
+    /// Get OS service information, is running, status, etc.
     /// </summary>
-    bool IsServiceRunning(string serviceName);
+    ServiceStatusViewModel? GetService(string serviceName, bool includeLogs = false);
 
     /// <summary>
     /// Start OS service
