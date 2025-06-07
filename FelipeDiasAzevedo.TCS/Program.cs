@@ -1,5 +1,7 @@
 using FelipeDiasAzevedo.TCS.Business.Services;
 using FelipeDiasAzevedo.TCS.Infra.Options;
+using FelipeDiasAzevedo.TCS.Infra.Repositories.Clipboard;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +19,17 @@ builder.Services
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
+builder.Services.AddDbContext<DatabaseContext>(options =>
+{
+    options.UseSqlite($"Data Source=tcs.db");
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
+
 builder.Services.AddScoped<ISystemService, SystemService>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IClipboardService, ClipboardService>();
+
+builder.Services.AddScoped<IClipboardRepository, ClipboardRepository>();
 
 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 {

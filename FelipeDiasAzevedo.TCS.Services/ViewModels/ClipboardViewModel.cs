@@ -10,6 +10,5 @@ public record ClipboardViewModel
 
     public required string QrCode { get; init; }
 
-    public DateTime CreatedAt { get; init; } = DateTime.Now;
-    public DateTime UpdatedAt { get; init; } = DateTime.Now;
+    public DateTime LastModified { get; init; }
 }

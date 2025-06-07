@@ -8,9 +8,13 @@
         Body = $"Are you sure you want to <span class=\"fw-bold\">Start</span> the service <span class=\"fw-bold text-body\">{Model.DisplayName}</span> ?",
         Button = "Confirm Start",
         Action = "StartService",
+        Controller = "Service",
         Icon = "bi-play-circle-fill",
         Color = "success",
-        QueryName = Model.Name
+        Routes = 
+        {
+            { "name", Model.Name }
+        }
     };
 }
 

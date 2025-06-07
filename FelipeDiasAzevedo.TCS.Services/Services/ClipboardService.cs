@@ -1,52 +1,93 @@
 using FelipeDiasAzevedo.TCS.Business.ViewModels;
+using FelipeDiasAzevedo.TCS.Infra.Models.Clipboard;
+using FelipeDiasAzevedo.TCS.Infra.Repositories.Clipboard;
 using QRCoder;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 
 namespace FelipeDiasAzevedo.TCS.Business.Services;
 
-public class ClipboardService : IClipboardService
+public class ClipboardService(IClipboardRepository clipboardRepository) : IClipboardService
 {
     public async Task<List<ClipboardViewModel>> Get()
     {
-        await Task.Delay(150);
-        return
-        [
-            new()
-            {
-                Title = "Google",
-                Text = "https://www.google.com/",
-                QrCode = GenerateQrCode("https://www.google.com/")
-            },
-            new()
-            {
-                Title = "Google",
-                Text = "https://www.google.com/",
-                QrCode = GenerateQrCode("https://www.google.com/")
-            },
-            new()
-            {
-                Title = "Mercado Livre",
-                Text = "https://produto.mercadolivre.com.br/MLB-4035715673-kit-pintura-diamante-amendoeiras-diamond-art-_JM?vip_filters=shipping%3Afulfillment&highlight=false&headerTopBrand=false#polycard_client=search-nordic&position=3&search_layout=grid&type=item&tracking_id=0b9138e6-241c-412d-b9d5-a116e35a9108&wid=MLB4035715673&sid=search",
-                QrCode = GenerateQrCode("https://produto.mercadolivre.com.br/MLB-4035715673-kit-pintura-diamante-amendoeiras-diamond-art-_JM?vip_filters=shipping%3Afulfillment&highlight=false&headerTopBrand=false#polycard_client=search-nordic&position=3&search_layout=grid&type=item&tracking_id=0b9138e6-241c-412d-b9d5-a116e35a9108&wid=MLB4035715673&sid=search")
-            }
-        ];
+        var models = await clipboardRepository.Get();
+
+        return models.Select(model => new ClipboardViewModel
+        {
+            Id = model.Id,
+            Title = model.Title,
+            Text = model.Text,
+            QrCode = model.QrCode,
+            LastModified = model.UpdatedAt ?? model.CreatedAt
+        }).ToList();
     }
 
-    public Task Save(string text)
+    public async Task<UpsertClipboardViewModel> GetById(string id)
     {
-        throw new NotImplementedException();
+        var model = await clipboardRepository.GetById(id);
+
+        if (model is null)
+        {
+            // TODO: result pattern
+            throw new KeyNotFoundException($"Clipboard with ID {id} not found.");
+        }
+
+        return new UpsertClipboardViewModel
+        {
+            Id = model.Id,
+            Title = model.Title,
+            Text = model.Text,
+        };
     }
 
-    public Task Update(string id, string text)
+    public async Task Save(UpsertClipboardViewModel viewModel)
     {
-        throw new NotImplementedException();
+        var clipboard = new ClipboardModel
+        {
+            Id = Guid.NewGuid().ToString(),
+            Title = viewModel.Title,
+            Text = viewModel.Text,
+            QrCode = GenerateQrCode(viewModel.Text),
+            CreatedAt = DateTime.Now
+        };
+
+        await clipboardRepository.Insert(clipboard);
     }
 
-    public Task Delete(string id)
+    public async Task Update(UpsertClipboardViewModel viewModel)
     {
-        throw new NotImplementedException();
+        if (viewModel.Id is null)
+        {
+            // TODO: result pattern
+            throw new ArgumentNullException(nameof(viewModel.Id), "Clipboard ID cannot be null.");
+        }
+
+        var clipboard = await clipboardRepository.GetById(viewModel.Id);
+
+        if (clipboard is null)
+        {
+            // TODO: result pattern
+            throw new KeyNotFoundException($"Clipboard with ID {viewModel.Id} not found.");
+        }
+
+        clipboard.Title = viewModel.Title;
+        clipboard.Text = viewModel.Text;
+        clipboard.QrCode = GenerateQrCode(viewModel.Text);
+        clipboard.UpdatedAt = DateTime.Now;
+
+        await clipboardRepository.Update(clipboard);
+    }
+
+    public async Task Delete(string id)
+    {
+        var clipboard = await clipboardRepository.GetById(id);
+
+        if (clipboard is null)
+        {
+            // TODO: result pattern
+            throw new KeyNotFoundException($"Clipboard with ID {id} not found.");
+        }
+
+        await clipboardRepository.Remove(clipboard);
     }
 
     private string GenerateQrCode(string text)

@@ -1,13 +1,15 @@
 @model FelipeDiasAzevedo.TCS.Business.ViewModels.UpsertClipboardViewModel
 @{
-    ViewData["Title"] = "Add Clipboard";
+    ViewData["Title"] = "Edit Clipboard";
 }
 
 <h3 class="display-4 mb-4">
-    Add Clipboard
+    Edit Clipboard
 </h3>
 
-<form asp-action="Create" method="post" class="d-flex flex-column gap-4">
+<form asp-action="Edit" method="post" class="d-flex flex-column gap-4">
+
+    <input type="hidden" asp-for="Id" />
 
     <div class="input-group has-validation">
         <span class="input-group-text">@Html.DisplayNameFor(x => x.Title)</span>

@@ -1,0 +1,24 @@
+﻿@model FelipeDiasAzevedo.TCS.Business.ViewModels.UpsertClipboardViewModel
+
+@{
+    ViewData["Title"] = "Delete Clipboard";
+
+    var confirmationAlert = new ConfirmationAlertViewModel
+    {
+        Header = "You are about to <span class=\"fw-bold text-danger\">delete</span> this clipboard.",
+        Body = $"clipboard \"<span class=\"fw-bold text-danger\">{Model.Title}</span>\" will be deleted.",
+        Button = "Confirm Delete",
+        Action = "Delete",
+        Controller = "Clipboard",
+        Icon = "bi-trash3",
+        Color = "danger",
+        Routes =
+        {
+            { "id", Model.Id! }
+        }
+    };
+}
+
+<h3 class="display-4 mb-4">Delete Clipboard</h3>
+
+<partial name="_ConfirmationAlert" model="confirmationAlert" />

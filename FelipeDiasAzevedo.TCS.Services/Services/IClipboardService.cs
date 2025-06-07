@@ -6,9 +6,11 @@ public interface IClipboardService
 {
     Task<List<ClipboardViewModel>> Get();
 
-    Task Save(string text);
+    Task<UpsertClipboardViewModel> GetById(string id);
 
-    Task Update(string id, string text);
+    Task Save(UpsertClipboardViewModel viewModel);
+
+    Task Update(UpsertClipboardViewModel viewModel);
 
     Task Delete(string id);
 }

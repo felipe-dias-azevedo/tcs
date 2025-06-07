@@ -457,3 +457,5 @@ global.json
 
 ffmpeg.exe
 yt-dlp.exe
+tcs.db
+tcs.db*

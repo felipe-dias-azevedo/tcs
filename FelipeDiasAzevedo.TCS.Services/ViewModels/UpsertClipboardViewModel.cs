@@ -2,13 +2,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FelipeDiasAzevedo.TCS.Business.ViewModels;
 
-public record CreateClipboardViewModel
+public record UpsertClipboardViewModel
 {
-    [Required]
-    [MinLength(2)]
-    public string Title { get; init; }
+    public string? Id { get; set; }
 
     [Required]
     [MinLength(2)]
-    public string Text { get; init; }
+    public required string Title { get; init; }
+
+    [Required]
+    [MinLength(2)]
+    public required string Text { get; init; }
 }
