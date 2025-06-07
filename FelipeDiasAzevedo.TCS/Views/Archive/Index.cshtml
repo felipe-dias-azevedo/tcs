@@ -7,7 +7,7 @@
 
     <h3 class="display-4">Archive</h3>
     <div class="dropdown">
-        <button class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center"
+        <button class="btn btn-sm btn-secondary bg-gradient dropdown-toggle d-flex align-items-center"
             data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
             <i class="bi bi-filter me-1 fs-5"></i>
         </button>
@@ -50,7 +50,7 @@
 
             @if (archive.Exists)
             {
-                <a class="btn btn-outline-primary d-inline-flex align-items-center px-3 px-md-4" title="Download"
+                <a class="btn btn-primary bg-gradient d-inline-flex align-items-center px-3 px-md-4" title="Download"
                     asp-controller="Archive" asp-action="Download" asp-route-path="@archive.Path" target="_blank">
                     <i class="bi bi-download fs-4"></i>
                 </a>

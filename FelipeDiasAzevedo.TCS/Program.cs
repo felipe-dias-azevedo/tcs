@@ -19,6 +19,7 @@ builder.Services
 
 builder.Services.AddScoped<ISystemService, SystemService>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IClipboardService, ClipboardService>();
 
 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 {

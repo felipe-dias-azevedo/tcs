@@ -3,7 +3,7 @@
 }
 
 @{
-    var cards = new HomeCardViewModel[3]
+    var cards = new HomeCardViewModel[4]
     {
 new HomeCardViewModel
 {
@@ -28,6 +28,15 @@ Routes = {
 },
 new HomeCardViewModel
 {
+Header = "Clipboard",
+Title = "",
+Text = "",
+ButtonText = "Open Clipboard Page",
+Controller = "Clipboard",
+Action = "Index",
+},
+new HomeCardViewModel
+{
 Header = "Shutdown",
 Title = "Shutdown system",
 Text = "Immediately power off the system. All operations will stop.",
@@ -40,9 +49,9 @@ Danger = true
 }
 
 
-<h1 class="display-4 mb-4">
+<h3 class="display-4 mb-4">
     Welcome
-</h1>
+</h3>
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xg-4 g-4">
 

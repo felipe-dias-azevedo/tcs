@@ -1,0 +1,73 @@
+@model List<ClipboardViewModel>
+@{
+    ViewData["Title"] = "Clipboard";
+}
+
+
+<div class="mb-4 d-flex justify-content-between align-items-center">
+
+    <h3 class="display-4">
+        Clipboard
+    </h3>
+    <a class="btn bg-gradient btn-primary px-3" asp-controller="Clipboard" asp-action="Create">
+        <i class="bi bi-plus-lg fs-4"></i>
+    </a>
+</div>
+
+@* <div class="d-flex flex-column gap-4"> *@
+<div class="row row-cols-1 row-cols-md-2 row-cols-xg-3 g-4">
+
+    @foreach (var clipboard in Model)
+    {
+        <div class="col">
+            <div class="card shadow-sm p-3 d-flex flex-column gap-3">
+
+                <div class="d-flex flex-row align-items-center justify-content-between">
+                    
+                    <h4 class="mb-0">@clipboard.Title</h4>
+
+                    <small class="text-muted mb-0">@clipboard.UpdatedAt.ToString("G")</small>
+                </div>
+
+
+                <textarea class="form-control" style="resize: none; height: 120px;" disabled>@clipboard.Text</textarea>
+
+                <div class="d-flex flex-row gap-2">
+
+                    <a class="btn bg-gradient btn-secondary px-3 py-2">
+                        <i class="bi bi-pencil-square fs-4"></i>
+                    </a>
+
+                    <a class="btn bg-gradient btn-danger px-3 py-2">
+                        <i class="bi bi-trash3 fs-4"></i>
+                    </a>
+
+                    <div class="flex-grow-1"></div>
+
+                    <button class="btn bg-gradient btn-primary px-3 py-2">
+                        <i class="bi bi-copy fs-4"></i>
+                    </button>
+
+                    <a class="btn bg-gradient btn-primary px-3 py-2" href="#" data-bs-toggle="modal"
+                        data-bs-target="#qrModal-@clipboard.Id">
+
+                        <i class="bi bi-qr-code-scan fs-4"></i>
+
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="qrModal-@clipboard.Id" tabindex="-1" aria-labelledby="qrModalLabel-@clipboard.Id"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-transparent border-0">
+                    <div class="modal-body text-center">
+                        <img src="@clipboard.QrCode" alt="QR Code Fullscreen" class="img-fluid rounded shadow w-100" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
