@@ -28,7 +28,7 @@
                     <small class="text-muted mb-0">@clipboard.LastModified.ToString("G")</small>
                 </div>
 
-                <textarea id="copyText-@clipboard.Id" class="form-control text-body bg-body-tertiary border border-secondary-subtle" style="resize: none; height: 120px;" readonly>@clipboard.Text</textarea>
+                <textarea id="copyText-@clipboard.Id" class="form-control text-body bg-body-tertiary border border-secondary-subtle" rows="4" style="resize: none;" readonly>@clipboard.Text</textarea>
 
                 <div class="d-flex flex-row gap-2">
 
@@ -44,8 +44,7 @@
 
                     <button class="btn bg-gradient btn-primary px-3 py-2 copy-btn" 
                         data-clipboard-target="#copyText-@clipboard.Id"
-                        data-bs-toggle="tooltip" 
-                        title="Copy to clipboard">
+                        data-bs-toggle="tooltip">
                         <i class="bi bi-copy fs-4"></i>
                     </button>
 
@@ -74,9 +73,7 @@
 </div>
 
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
-
     <script>
-        setupClipboardWithTooltips();
+        setupClipboardWithTooltips(".copy-btn", "Copied!", "Failed.");
     </script>
 }
