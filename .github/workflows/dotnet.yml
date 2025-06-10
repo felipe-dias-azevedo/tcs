@@ -34,7 +34,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
       
     - name: Publish win-x64-aot-self-contained
-      run: dotnet publish FelipeDiasAzevedo.TCS.csproj -c Release /p:PublishProfile=win-x64-aot-self-contained
+      run: dotnet publish FelipeDiasAzevedo.TCS -c Release /p:PublishProfile=win-x64-aot-self-contained
 
     - name: Zip win-x64-aot-self-contained Output
       run: Compress-Archive -Path bin\Release\net8.0\win-x64-aot-self-contained\* -DestinationPath win-x64-aot-self-contained.zip
