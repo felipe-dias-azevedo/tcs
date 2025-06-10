@@ -20,12 +20,16 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+        
     - name: Restore .NET tools
-      run: dotnet tool restore
+      run: dotnet tool restore --tool-manifest FelipeDiasAzevedo.TCS/.config/dotnet-tools.json
+      
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build -c Release --no-restore
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal
       
