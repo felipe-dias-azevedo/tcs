@@ -36,6 +36,14 @@ jobs:
     - name: Publish win-x64-aot-self-contained
       run: dotnet publish FelipeDiasAzevedo.TCS -c Release /p:PublishProfile=win-x64-aot-self-contained
 
+    - name: List files current dir
+      run: dir .\
+      shell: pwsh
+
+    - name: List files in publish folder
+      run: dir FelipeDiasAzevedo.TCS\bin\Release\net8.0\win-x64-aot-self-contained
+      shell: pwsh
+
     - name: Zip win-x64-aot-self-contained Output
       run: Compress-Archive -Path FelipeDiasAzevedo.TCS\bin\Release\net8.0\win-x64-aot-self-contained\* -DestinationPath win-x64-aot-self-contained.zip
       shell: pwsh
