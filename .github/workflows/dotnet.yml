@@ -1,0 +1,41 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      
+    - name: Publish win-x64-aot-self-contained
+      run: dotnet publish FelipeDiasAzevedo.TCS.csproj -c Release /p:PublishProfile=win-x64-aot-self-contained
+
+    - name: Zip win-x64-aot-self-contained Output
+      run: Compress-Archive -Path bin\Release\net8.0\win-x64-aot-self-contained\* -DestinationPath win-x64-aot-self-contained.zip
+      shell: pwsh
+
+    - name: Upload win-x64-aot-self-contained Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: win-x64-aot-self-contained
+        path: win-x64-aot-self-contained.zip
